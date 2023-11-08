@@ -29,7 +29,7 @@ public class SessionService {
     SessionRepository sessionRepository;
     SessionUserDtoFactory sessionUserDtoFactory;
 
-    public void createSession(HttpServletResponse response, UserEntity user) throws IOException {
+    public void createSession(HttpServletResponse response, UserEntity user) {
         SessionEntity session = sessionRepository.saveAndFlush(
                 SessionEntity.builder()
                         .user(user)
