@@ -21,7 +21,7 @@ import java.time.Instant;
 public class SessionService {
     public static final Duration SESSION_LIFETIME = Duration.ofDays(5);
     private static final Long SESSION_EXPIRED = -1L;
-    public static final String SESSION_ID_COOKIE = "session_id";
+    public static final String SESSION_ID_COOKIE = "sessionId";
 
     SessionRepository sessionRepository;
 
