@@ -20,6 +20,7 @@ import java.time.Instant;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SessionService {
     public static final Duration SESSION_LIFETIME = Duration.ofDays(5);
+    private static final Long SESSION_EXPIRED = -1L;
     public static final String SESSION_ID_COOKIE = "session_id";
 
     SessionRepository sessionRepository;
@@ -37,6 +38,19 @@ public class SessionService {
                 .secure(true)
                 .path("/")
                 .maxAge(SESSION_LIFETIME)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, sessionCookie.toString());
+    }
+
+    public void removeSession(HttpServletResponse response, String sessionId) {
+        sessionRepository.removeById(sessionId);
+
+        ResponseCookie sessionCookie = ResponseCookie.from(SESSION_ID_COOKIE, sessionId)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(SESSION_EXPIRED)
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, sessionCookie.toString());
