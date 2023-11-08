@@ -7,12 +7,11 @@ import com.vadimistar.weatherviewer.repositories.SessionRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
+import java.util.Optional;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
@@ -24,13 +23,12 @@ public class CurrentUserController {
     CurrentUserDtoFactory currentUserDtoFactory;
 
     @GetMapping(FETCH_CURRENT_USER)
-    public ResponseEntity<CurrentUserDto> fetchCurrentUser(@CookieValue(defaultValue = "") String sessionId)  {
-        CurrentUserDto currentUserDto = sessionRepository
-                .findById(sessionId)
+    public CurrentUserDto fetchCurrentUser(@CookieValue(defaultValue = "") String sessionId)  {
+        Optional<SessionEntity> session = sessionRepository.findById(sessionId);
+
+        return session
                 .map(SessionEntity::getUser)
                 .map(currentUserDtoFactory::createCurrentUserDto)
                 .orElseGet(currentUserDtoFactory::createNotLoggedIn);
-
-        return ResponseEntity.ok(currentUserDto);
     }
 }
