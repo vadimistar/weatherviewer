@@ -24,9 +24,9 @@ public class CurrentUserController {
     CurrentUserDtoFactory currentUserDtoFactory;
 
     @GetMapping(FETCH_CURRENT_USER)
-    public ResponseEntity<CurrentUserDto> fetchCurrentUser(@CookieValue(required = false) String sessionId)  {
+    public ResponseEntity<CurrentUserDto> fetchCurrentUser(@CookieValue(defaultValue = "") String sessionId)  {
         CurrentUserDto currentUserDto = sessionRepository
-                .findById(UUID.fromString(sessionId))
+                .findById(sessionId)
                 .map(SessionEntity::getUser)
                 .map(currentUserDtoFactory::createCurrentUserDto)
                 .orElseGet(currentUserDtoFactory::createNotLoggedIn);
