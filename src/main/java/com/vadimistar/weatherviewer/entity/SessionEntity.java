@@ -23,11 +23,13 @@ public class SessionEntity {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    UUID id;
+    String id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     UserEntity user;
 
-    Instant expiresAt;
+    @NonNull
+    @Builder.Default
+    Instant expiresAt = Instant.now();
 }

@@ -20,7 +20,9 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
 
+    @NonNull
     String name;
 
+    @NonNull
     String password;
 }

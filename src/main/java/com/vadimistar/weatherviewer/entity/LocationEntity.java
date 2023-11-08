@@ -21,13 +21,16 @@ public class LocationEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
 
+    @NonNull
     String name;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     UserEntity user;
 
+    @NonNull
     BigDecimal latitude;
 
+    @NonNull
     BigDecimal longitude;
 }
