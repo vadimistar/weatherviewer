@@ -15,9 +15,11 @@ import java.io.IOException;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 @RestController
 @AllArgsConstructor
+@Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RegisterController {
     public static final String PATH = "/api/register";
