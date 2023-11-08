@@ -18,12 +18,12 @@ import java.io.IOException;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LoginController {
-    public static final String PATH = "/api/login";
+    public static final String LOGIN = "/api/login";
 
     UserRepository userRepository;
     SessionService sessionService;
 
-    @PostMapping(PATH)
+    @PostMapping(LOGIN)
     public void login(HttpServletResponse response,
                       @RequestParam String name,
                       @RequestParam String password,

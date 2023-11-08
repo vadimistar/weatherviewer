@@ -16,11 +16,11 @@ import javax.transaction.Transactional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Transactional
 public class LogoutController {
-    public static final String PATH = "/api/logout";
+    public static final String LOGOUT = "/api/logout";
 
     SessionService sessionService;
 
-    @PostMapping(PATH)
+    @PostMapping(LOGOUT)
     public void logout(HttpServletResponse response,
                        @CookieValue(defaultValue = "") String sessionId) {
         sessionService.removeSession(response, sessionId);

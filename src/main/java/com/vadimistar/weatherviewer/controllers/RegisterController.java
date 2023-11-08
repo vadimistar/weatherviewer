@@ -22,12 +22,12 @@ import javax.transaction.Transactional;
 @Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RegisterController {
-    public static final String PATH = "/api/register";
+    public static final String REGISTER = "/api/register";
 
     UserRepository userRepository;
     SessionService sessionService;
 
-    @PostMapping(PATH)
+    @PostMapping(REGISTER)
     public void register(HttpServletResponse response,
                                  @RequestParam String name,
                                  @RequestParam String password,
