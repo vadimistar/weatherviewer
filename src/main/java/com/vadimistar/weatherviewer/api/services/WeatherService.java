@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +28,10 @@ public class WeatherService {
         uriVariables.put("exclude", "hourly,daily");
         uriVariables.put("units", "metric");
 
-        WeatherApiResponse apiResponse = openWeatherMapConfig.get(WeatherApiResponse.class, uriVariables);
+        String apiUri = openWeatherMapConfig.getWeatherUri(uriVariables);
+        WeatherApiResponse apiResponse = new RestTemplate().getForObject(apiUri, WeatherApiResponse.class);
 
+        assert apiResponse != null;
         return weatherDtoFactory.createWeatherDto(apiResponse);
     }
 }
