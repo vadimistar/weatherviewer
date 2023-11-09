@@ -1,4 +1,4 @@
-package com.vadimistar.weatherviewer.api.exceptions;
+package com.vadimistar.weatherviewer.api.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

@@ -1,5 +1,6 @@
-package com.vadimistar.weatherviewer.api.exceptions;
+package com.vadimistar.weatherviewer.api.controllers;
 
+import com.vadimistar.weatherviewer.api.dto.ErrorDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
