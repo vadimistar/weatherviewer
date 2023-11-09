@@ -18,11 +18,11 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Controller
 public class ErrorExceptionController implements ErrorController {
-    public static final String PATH = "/error";
+    public static final String ERROR = "/error";
 
     ErrorAttributes errorAttributes;
 
-    @RequestMapping(PATH)
+    @RequestMapping(ERROR)
     public ResponseEntity<ErrorDto> error(WebRequest webRequest) {
         Map<String, Object> attributes = errorAttributes.getErrorAttributes(
                 webRequest,
