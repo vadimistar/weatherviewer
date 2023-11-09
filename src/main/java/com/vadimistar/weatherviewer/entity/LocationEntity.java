@@ -33,4 +33,13 @@ public class LocationEntity {
 
     @NonNull
     BigDecimal longitude;
+
+    public static LocationEntity create(String name, UserEntity user, BigDecimal latitude, BigDecimal longitude) {
+        return builder()
+                .name(name)
+                .user(user)
+                .latitude(latitude)
+                .longitude(longitude)
+                .build();
+    }
 }
