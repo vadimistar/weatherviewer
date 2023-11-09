@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LocationDto {
+public class SavedLocationDto {
     @NonNull
     Long id;
 

@@ -1,13 +1,13 @@
 package com.vadimistar.weatherviewer.api.controllers;
 
-import com.vadimistar.weatherviewer.api.dto.LocationDto;
+import com.vadimistar.weatherviewer.api.dto.SavedLocationDto;
 import com.vadimistar.weatherviewer.api.dto.SessionUserDto;
 import com.vadimistar.weatherviewer.api.dto.WeatherDto;
 import com.vadimistar.weatherviewer.store.entity.LocationEntity;
 import com.vadimistar.weatherviewer.store.entity.UserEntity;
 import com.vadimistar.weatherviewer.api.exceptions.BadRequestException;
 import com.vadimistar.weatherviewer.api.exceptions.ForbiddenException;
-import com.vadimistar.weatherviewer.api.factory.LocationDtoFactory;
+import com.vadimistar.weatherviewer.api.factory.SavedLocationDtoFactory;
 import com.vadimistar.weatherviewer.store.repositories.LocationRepository;
 import com.vadimistar.weatherviewer.store.repositories.UserRepository;
 import com.vadimistar.weatherviewer.api.services.SessionService;
@@ -34,14 +34,14 @@ public class LocationsSavedController {
     public static final String SAVE_LOCATION = "/api/locations/saved";
     public static final String REMOVE_SAVED_LOCATION = "/api/locations/saved/{id}";
 
-    LocationDtoFactory locationDtoFactory;
+    SavedLocationDtoFactory locationDtoFactory;
     SessionService sessionService;
     LocationRepository locationRepository;
     UserRepository userRepository;
     WeatherService weatherService;
 
     @GetMapping(FETCH_SAVED_LOCATIONS)
-    public List<LocationDto> fetchSavedLocations(@CookieValue(defaultValue = "") String sessionId) {
+    public List<SavedLocationDto> fetchSavedLocations(@CookieValue(defaultValue = "") String sessionId) {
         Optional<SessionUserDto> sessionUser = sessionService.getUserBySession(sessionId);
 
         if (!sessionUser.isPresent()) {
