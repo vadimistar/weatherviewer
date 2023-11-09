@@ -2,6 +2,7 @@ package com.vadimistar.weatherviewer.controllers;
 
 import com.vadimistar.weatherviewer.dto.LocationDto;
 import com.vadimistar.weatherviewer.dto.SessionUserDto;
+import com.vadimistar.weatherviewer.dto.WeatherDto;
 import com.vadimistar.weatherviewer.entity.LocationEntity;
 import com.vadimistar.weatherviewer.entity.UserEntity;
 import com.vadimistar.weatherviewer.exceptions.BadRequestException;
@@ -10,6 +11,7 @@ import com.vadimistar.weatherviewer.factory.LocationDtoFactory;
 import com.vadimistar.weatherviewer.repositories.LocationRepository;
 import com.vadimistar.weatherviewer.repositories.UserRepository;
 import com.vadimistar.weatherviewer.services.SessionService;
+import com.vadimistar.weatherviewer.services.WeatherService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -36,6 +38,7 @@ public class LocationsSavedController {
     SessionService sessionService;
     LocationRepository locationRepository;
     UserRepository userRepository;
+    WeatherService weatherService;
 
     @GetMapping(FETCH_SAVED_LOCATIONS)
     public List<LocationDto> fetchSavedLocations(@CookieValue(defaultValue = "") String sessionId) {
@@ -47,10 +50,15 @@ public class LocationsSavedController {
 
         List<LocationEntity> locations = locationRepository.findAllByUserIdOrderById(sessionUser.get().getId());
 
-        // TODO: fetch weather information from api
-
         return locations.stream()
-                .map(locationDtoFactory::createLocationDto)
+                .map(location -> {
+                    WeatherDto weather = weatherService.getWeather(
+                            location.getLatitude().doubleValue(),
+                            location.getLongitude().doubleValue()
+                    );
+
+                    return locationDtoFactory.createLocationDto(location, weather);
+                })
                 .collect(Collectors.toList());
     }
 
