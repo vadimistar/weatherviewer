@@ -1,6 +1,5 @@
 package com.vadimistar.weatherviewer.api.exceptions;
 
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
