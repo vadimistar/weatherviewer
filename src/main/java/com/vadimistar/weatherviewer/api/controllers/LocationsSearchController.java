@@ -35,6 +35,8 @@ public class LocationsSearchController {
             @RequestParam(defaultValue = DEFAULT_SEARCH_LIMIT) Integer limit){
         Map<String, Object> uriVariables = new HashMap<>();
 
+        query = query.replace(' ', '_');
+
         uriVariables.put("q", query);
         uriVariables.put("limit", limit);
 
