@@ -2,29 +2,18 @@ package com.vadimistar.weatherviewer.api.controllers;
 
 import com.vadimistar.weatherviewer.api.dto.CurrentUserDto;
 import com.vadimistar.weatherviewer.api.dto.SavedLocationDto;
-import com.vadimistar.weatherviewer.api.dto.WeatherDto;
 import com.vadimistar.weatherviewer.api.services.LocationService;
-import com.vadimistar.weatherviewer.store.entity.LocationEntity;
-import com.vadimistar.weatherviewer.store.entity.UserEntity;
-import com.vadimistar.weatherviewer.api.exceptions.BadRequestException;
 import com.vadimistar.weatherviewer.api.exceptions.ForbiddenException;
-import com.vadimistar.weatherviewer.api.factory.SavedLocationDtoFactory;
-import com.vadimistar.weatherviewer.store.repositories.LocationRepository;
-import com.vadimistar.weatherviewer.store.repositories.UserRepository;
 import com.vadimistar.weatherviewer.api.services.SessionService;
-import com.vadimistar.weatherviewer.api.services.WeatherService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.propertyeditors.CurrencyEditor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor

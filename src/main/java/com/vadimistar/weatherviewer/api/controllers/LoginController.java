@@ -1,7 +1,6 @@
 package com.vadimistar.weatherviewer.api.controllers;
 
 import com.vadimistar.weatherviewer.api.dto.SessionDto;
-import com.vadimistar.weatherviewer.store.repositories.UserRepository;
 import com.vadimistar.weatherviewer.api.services.SessionService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

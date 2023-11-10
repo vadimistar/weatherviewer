@@ -1,6 +1,5 @@
 package com.vadimistar.weatherviewer.api.services;
 
-import com.vadimistar.weatherviewer.api.controllers.SavedLocationsController;
 import com.vadimistar.weatherviewer.api.dto.FoundLocationDto;
 import com.vadimistar.weatherviewer.api.dto.SavedLocationDto;
 import com.vadimistar.weatherviewer.api.dto.WeatherDto;

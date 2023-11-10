@@ -1,7 +1,6 @@
 package com.vadimistar.weatherviewer.api.utils;
 
 import com.vadimistar.weatherviewer.api.dto.SessionDto;
-import com.vadimistar.weatherviewer.api.services.SessionService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 
