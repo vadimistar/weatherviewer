@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Transactional
-public class LocationsSavedController {
+public class SavedLocationsController {
 
     public static final String FETCH_SAVED_LOCATIONS = "/api/locations/saved";
     public static final String SAVE_LOCATION = "/api/locations/saved";

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class LocationsSearchController {
+public class SearchLocationsController {
     public static final String SEARCH_LOCATIONS = "/api/locations/search";
     public static final String DEFAULT_SEARCH_LIMIT = "5";
 
