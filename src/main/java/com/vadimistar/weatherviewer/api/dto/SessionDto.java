@@ -6,13 +6,13 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 
+import java.time.Instant;
+
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SessionUserDto {
-    @NonNull
-    Long id;
+public class SessionDto {
+    @NonNull String id;
 
-    @NonNull
-    String name;
+    @NonNull Instant expiresAt;
 }

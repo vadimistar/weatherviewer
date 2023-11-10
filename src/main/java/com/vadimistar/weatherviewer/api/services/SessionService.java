@@ -1,18 +1,19 @@
 package com.vadimistar.weatherviewer.api.services;
 
-import com.vadimistar.weatherviewer.api.dto.SessionUserDto;
+import com.vadimistar.weatherviewer.api.dto.CurrentUserDto;
+import com.vadimistar.weatherviewer.api.dto.SessionDto;
+import com.vadimistar.weatherviewer.api.exceptions.BadRequestException;
+import com.vadimistar.weatherviewer.api.factory.CurrentUserDtoFactory;
+import com.vadimistar.weatherviewer.api.factory.SessionDtoFactory;
 import com.vadimistar.weatherviewer.store.entity.SessionEntity;
 import com.vadimistar.weatherviewer.store.entity.UserEntity;
-import com.vadimistar.weatherviewer.api.factory.SessionUserDtoFactory;
 import com.vadimistar.weatherviewer.store.repositories.SessionRepository;
+import com.vadimistar.weatherviewer.store.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
@@ -22,13 +23,16 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SessionService {
     public static final Duration SESSION_LIFETIME = Duration.ofDays(5);
-    private static final Long SESSION_EXPIRED = 0L;
-    public static final String SESSION_ID_COOKIE = "sessionId";
 
     SessionRepository sessionRepository;
-    SessionUserDtoFactory sessionUserDtoFactory;
+    CurrentUserDtoFactory currentUserDtoFactory;
+    SessionDtoFactory sessionDtoFactory;
+    UserRepository userRepository;
 
-    public void createSession(HttpServletResponse response, UserEntity user) {
+    public SessionDto createSession(String name, String password) {
+        UserEntity user = userRepository.findByNameAndPassword(name, password)
+                .orElseThrow(() -> new BadRequestException("invalid credentials"));
+
         SessionEntity session = sessionRepository.saveAndFlush(
                 SessionEntity.builder()
                         .user(user)
@@ -36,33 +40,18 @@ public class SessionService {
                         .build()
         );
 
-        ResponseCookie responseCookie = createResponseCookie(session.getId(), SESSION_LIFETIME.getSeconds());
-
-        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+        return sessionDtoFactory.createSessionDto(session);
     }
 
-    public void removeSession(HttpServletResponse response, String sessionId) {
+    public void removeSession(String sessionId) {
         sessionRepository.removeById(sessionId);
-
-        ResponseCookie responseCookie = createResponseCookie(sessionId, SESSION_EXPIRED);
-
-        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
     }
 
-    public Optional<SessionUserDto> getUserBySession(String sessionId) {
+    public Optional<CurrentUserDto> getCurrentUser(String sessionId) {
         Optional<SessionEntity> session = sessionRepository.findById(sessionId);
 
         return session
                 .map(SessionEntity::getUser)
-                .map(sessionUserDtoFactory::createSessionUserDto);
-    }
-
-    private ResponseCookie createResponseCookie(String sessionId, long maxAgeSeconds) {
-        return ResponseCookie.from(SESSION_ID_COOKIE, sessionId)
-                .httpOnly(true)
-                .secure(true)
-                .path("/")
-                .maxAge(maxAgeSeconds)
-                .build();
+                .map(currentUserDtoFactory::createCurrentUserDto);
     }
 }

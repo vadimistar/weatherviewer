@@ -1,5 +1,7 @@
 package com.vadimistar.weatherviewer.api.controllers;
 
+import com.vadimistar.weatherviewer.api.dto.SessionDto;
+import com.vadimistar.weatherviewer.api.services.UserService;
 import com.vadimistar.weatherviewer.store.entity.UserEntity;
 import com.vadimistar.weatherviewer.api.exceptions.BadRequestException;
 import com.vadimistar.weatherviewer.store.repositories.UserRepository;
@@ -17,6 +19,8 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
+import static com.vadimistar.weatherviewer.api.utils.Utils.addSessionCookie;
+
 @RestController
 @AllArgsConstructor
 @Transactional
@@ -24,7 +28,7 @@ import javax.transaction.Transactional;
 public class RegisterController {
     public static final String REGISTER = "/api/register";
 
-    UserRepository userRepository;
+    UserService userService;
     SessionService sessionService;
 
     @PostMapping(REGISTER)
@@ -32,18 +36,11 @@ public class RegisterController {
                                  @RequestParam String name,
                                  @RequestParam String password,
                                  @RequestParam(required = false) String redirectUrl) throws IOException {
-        if (userRepository.existsByName(name)) {
-            throw new BadRequestException("user with the specified name already exists");
-        }
+        userService.createUser(name, password);
 
-        UserEntity user = userRepository.saveAndFlush(
-                UserEntity.builder()
-                        .name(name)
-                        .password(password)
-                        .build()
-        );
+        SessionDto session = sessionService.createSession(name, password);
 
-        sessionService.createSession(response, user);
+        addSessionCookie(response, session);
 
         if (Objects.nonNull(redirectUrl)) {
             response.sendRedirect(redirectUrl);

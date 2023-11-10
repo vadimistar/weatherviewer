@@ -17,12 +17,12 @@ public class CurrentUserController {
     public static final String FETCH_CURRENT_USER = "/api/current_user";
 
     SessionService sessionService;
+
     CurrentUserDtoFactory currentUserDtoFactory;
 
     @GetMapping(FETCH_CURRENT_USER)
     public CurrentUserDto fetchCurrentUser(@CookieValue(defaultValue = "") String sessionId)  {
-        return sessionService.getUserBySession(sessionId)
-                .map(currentUserDtoFactory::createCurrentUserDto)
+        return sessionService.getCurrentUser(sessionId)
                 .orElseGet(currentUserDtoFactory::createNotLoggedIn);
     }
 }

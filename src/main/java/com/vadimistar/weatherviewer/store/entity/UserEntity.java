@@ -25,4 +25,11 @@ public class UserEntity {
 
     @NonNull
     String password;
+
+    public static UserEntity create(String name, String password) {
+        return builder()
+                .name(name)
+                .password(password)
+                .build();
+    }
 }

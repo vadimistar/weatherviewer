@@ -15,6 +15,9 @@ public class CurrentUserDto {
     Boolean isLoggedIn;
 
     @NonNull
+    Long id;
+
+    @NonNull
     @Builder.Default
     String name = "";
 }

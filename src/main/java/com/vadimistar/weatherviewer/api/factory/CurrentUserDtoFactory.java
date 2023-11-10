@@ -1,16 +1,17 @@
 package com.vadimistar.weatherviewer.api.factory;
 
 import com.vadimistar.weatherviewer.api.dto.CurrentUserDto;
-import com.vadimistar.weatherviewer.api.dto.SessionUserDto;
+import com.vadimistar.weatherviewer.store.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CurrentUserDtoFactory {
-    public CurrentUserDto createCurrentUserDto(SessionUserDto userDto) {
+    public CurrentUserDto createCurrentUserDto(UserEntity user) {
         return CurrentUserDto
                 .builder()
                 .isLoggedIn(true)
-                .name(userDto.getName())
+                .id(user.getId())
+                .name(user.getName())
                 .build();
     }
 
@@ -18,6 +19,7 @@ public class CurrentUserDtoFactory {
         return CurrentUserDto
                 .builder()
                 .isLoggedIn(false)
+                .id(-1L)
                 .build();
     }
 }

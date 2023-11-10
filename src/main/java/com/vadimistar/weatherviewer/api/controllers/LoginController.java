@@ -1,7 +1,6 @@
 package com.vadimistar.weatherviewer.api.controllers;
 
-import com.vadimistar.weatherviewer.store.entity.UserEntity;
-import com.vadimistar.weatherviewer.api.exceptions.BadRequestException;
+import com.vadimistar.weatherviewer.api.dto.SessionDto;
 import com.vadimistar.weatherviewer.store.repositories.UserRepository;
 import com.vadimistar.weatherviewer.api.services.SessionService;
 import lombok.AccessLevel;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
+
+import static com.vadimistar.weatherviewer.api.utils.Utils.addSessionCookie;
 
 @RestController
 @AllArgsConstructor
@@ -20,7 +22,6 @@ import java.io.IOException;
 public class LoginController {
     public static final String LOGIN = "/api/login";
 
-    UserRepository userRepository;
     SessionService sessionService;
 
     @PostMapping(LOGIN)
@@ -28,13 +29,11 @@ public class LoginController {
                       @RequestParam String name,
                       @RequestParam String password,
                       @RequestParam(required = false) String redirectUrl) throws IOException {
-        UserEntity user = userRepository
-                .findByNameAndPassword(name, password)
-                .orElseThrow(() -> new BadRequestException("invalid username or password"));
+        SessionDto session = sessionService.createSession(name, password);
 
-        sessionService.createSession(response, user);
+        addSessionCookie(response, session);
 
-        if (redirectUrl != null) {
+        if (Objects.nonNull(redirectUrl)) {
             response.sendRedirect(redirectUrl);
         }
     }
