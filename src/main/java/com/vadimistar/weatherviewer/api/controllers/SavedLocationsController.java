@@ -30,10 +30,13 @@ public class SavedLocationsController {
 
     @GetMapping(FETCH_SAVED_LOCATIONS)
     public List<SavedLocationDto> fetchSavedLocations(@CookieValue(defaultValue = "") String sessionId) {
-        return sessionService.getCurrentUser(sessionId)
-                .map(CurrentUserDto::getId)
-                .map(locationService::getSavedLocations)
-                .orElse(new ArrayList<>());
+        CurrentUserDto currentUser = sessionService.getCurrentUser(sessionId);
+
+        if (currentUser.getIsLoggedIn()) {
+            return locationService.getSavedLocations(currentUser.getId());
+        }
+
+        return new ArrayList<>();
     }
 
     @PostMapping(SAVE_LOCATION)
@@ -41,16 +44,22 @@ public class SavedLocationsController {
                              @RequestParam BigDecimal longitude,
                              @RequestParam BigDecimal latitude,
                              @RequestParam String name) {
-        CurrentUserDto currentUser = sessionService.getCurrentUser(sessionId)
-                .orElseThrow(() -> new ForbiddenException("session is invalid or expired"));
+        CurrentUserDto currentUser = sessionService.getCurrentUser(sessionId);
 
-        locationService.saveLocation(currentUser.getId(), name, latitude, longitude);
+        if (currentUser.getIsLoggedIn()) {
+            locationService.saveLocation(currentUser.getId(), name, latitude, longitude);
+        }
+
+        throw new ForbiddenException("session is invalid or expired");
     }
 
     @DeleteMapping(REMOVE_SAVED_LOCATION)
     public void removeSavedLocation(@CookieValue(defaultValue = "") String sessionId,
                                     @PathVariable Long id) {
-        sessionService.getCurrentUser(sessionId)
-                .ifPresent(user -> locationService.removeSavedLocation(user.getId(), id));
+        CurrentUserDto currentUser = sessionService.getCurrentUser(sessionId);
+
+        if (currentUser.getIsLoggedIn()) {
+            locationService.removeSavedLocation(currentUser.getId(), id);
+        }
     }
 }

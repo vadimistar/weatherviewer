@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -47,11 +48,16 @@ public class SessionService {
         sessionRepository.removeById(sessionId);
     }
 
-    public Optional<CurrentUserDto> getCurrentUser(String sessionId) {
+    public CurrentUserDto getCurrentUser(String sessionId) {
+        if (Objects.isNull(sessionId)) {
+            return currentUserDtoFactory.createNotLoggedIn();
+        }
+
         Optional<SessionEntity> session = sessionRepository.findById(sessionId);
 
         return session
                 .map(SessionEntity::getUser)
-                .map(currentUserDtoFactory::createCurrentUserDto);
+                .map(currentUserDtoFactory::createCurrentUserDto)
+                .orElse(currentUserDtoFactory.createNotLoggedIn());
     }
 }

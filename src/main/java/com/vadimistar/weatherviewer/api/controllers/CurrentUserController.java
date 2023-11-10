@@ -22,7 +22,6 @@ public class CurrentUserController {
 
     @GetMapping(FETCH_CURRENT_USER)
     public CurrentUserDto fetchCurrentUser(@CookieValue(defaultValue = "") String sessionId)  {
-        return sessionService.getCurrentUser(sessionId)
-                .orElseGet(currentUserDtoFactory::createNotLoggedIn);
+        return sessionService.getCurrentUser(sessionId);
     }
 }
