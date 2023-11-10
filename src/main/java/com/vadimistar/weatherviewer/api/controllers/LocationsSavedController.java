@@ -42,7 +42,6 @@ public class LocationsSavedController {
 
     @GetMapping(FETCH_SAVED_LOCATIONS)
     public List<SavedLocationDto> fetchSavedLocations(@CookieValue(defaultValue = "") String sessionId) {
-        // todo: move sessionId cookie value parameter somewhere
         Optional<SessionUserDto> sessionUser = sessionService.getUserBySession(sessionId);
 
         if (!sessionUser.isPresent()) {
