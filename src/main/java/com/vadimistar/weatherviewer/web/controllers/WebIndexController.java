@@ -1,7 +1,6 @@
 package com.vadimistar.weatherviewer.web.controllers;
 
 import com.vadimistar.weatherviewer.api.dto.SavedLocationDto;
-import com.vadimistar.weatherviewer.api.factory.SavedLocationDtoFactory;
 import com.vadimistar.weatherviewer.api.services.LocationService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,7 @@ import java.util.List;
 @Controller
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @AllArgsConstructor
-public class IndexController {
+public class WebIndexController {
     public static final String INDEX = "/";
 
     LocationService locationService;
