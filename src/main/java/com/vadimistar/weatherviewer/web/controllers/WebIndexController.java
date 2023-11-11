@@ -1,12 +1,11 @@
 package com.vadimistar.weatherviewer.web.controllers;
 
 import com.vadimistar.weatherviewer.api.dto.CurrentUserDto;
-import com.vadimistar.weatherviewer.api.dto.SavedLocationDto;
-import com.vadimistar.weatherviewer.api.factory.CurrentUserDtoFactory;
 import com.vadimistar.weatherviewer.api.services.LocationService;
 import com.vadimistar.weatherviewer.api.services.SessionService;
-import com.vadimistar.weatherviewer.web.factory.SavedLocationModelFactory;
-import com.vadimistar.weatherviewer.web.models.SavedLocationModel;
+import com.vadimistar.weatherviewer.web.factory.LocationModelFactory;
+import com.vadimistar.weatherviewer.web.models.LocationModel;
+import com.vadimistar.weatherviewer.web.models.SearchModel;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -28,18 +27,18 @@ public class WebIndexController {
     LocationService locationService;
     SessionService sessionService;
 
-    SavedLocationModelFactory savedLocationModelFactory;
+    LocationModelFactory savedLocationModelFactory;
 
     @GetMapping(INDEX)
     public String index(Model model,
                         @CookieValue(required = false) String sessionId) {
         CurrentUserDto currentUser = sessionService.getCurrentUser(sessionId);
 
-        List<SavedLocationModel> locations;
+        List<LocationModel> locations;
 
         if (currentUser.getIsLoggedIn()) {
             locations = locationService.getSavedLocations(currentUser.getId()).stream()
-                    .map(savedLocationModelFactory::createSavedLocationModel)
+                    .map(savedLocationModelFactory::createLocationModel)
                     .collect(Collectors.toList());
         } else {
             locations = new ArrayList<>();

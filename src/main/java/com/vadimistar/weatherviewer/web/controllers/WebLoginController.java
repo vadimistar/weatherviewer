@@ -3,6 +3,7 @@ package com.vadimistar.weatherviewer.web.controllers;
 import com.vadimistar.weatherviewer.api.dto.SessionDto;
 import com.vadimistar.weatherviewer.api.exceptions.BadRequestException;
 import com.vadimistar.weatherviewer.api.services.SessionService;
+import com.vadimistar.weatherviewer.web.models.SearchModel;
 import com.vadimistar.weatherviewer.web.models.UserInfo;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

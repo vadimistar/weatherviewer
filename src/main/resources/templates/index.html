@@ -23,6 +23,11 @@
                     <div class="">
                         <span th:text="${location.getTime()}"></span>
                     </div>
+                    <form action="@{/saved}" method="post">
+                        <button class="btn btn-primary">
+                            add location
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

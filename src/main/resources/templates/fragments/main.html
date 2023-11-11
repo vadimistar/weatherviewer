@@ -31,14 +31,15 @@
 <div th:fragment="search-bar">
     <div class="row justify-content-center align-items-center my-5">
         <div class="w-auto">
-            <div class="input-group">
+            <form class="input-group" method="get" th:action="@{/search}">
                 <div class="form-outline">
-                    <input type="search" id="form1" class="form-control" placeholder="enter location" />
+                    <input type="search" id="input1" class="form-control"
+                           placeholder="enter location" name="query"/>
                 </div>
-                <button type="button" class="btn btn-primary">
+                <button type="submit" class="col btn btn-primary">
                     search
                 </button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
