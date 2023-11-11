@@ -13,8 +13,6 @@ import java.util.TimeZone;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WeatherDto {
-    Instant time;
-
     Double temperature;
 
     String weather;

@@ -19,7 +19,6 @@ public class WeatherDtoFactory {
         String iconUrl = String.format("https://openweathermap.org/img/wn/%s@4x.png", weather.getIcon());
 
         return WeatherDto.builder()
-                .time(Instant.ofEpochSecond(response.getDt()))
                 .temperature(response.getMain().getTemp())
                 .weather(weather.getMain())
                 .iconUrl(iconUrl)

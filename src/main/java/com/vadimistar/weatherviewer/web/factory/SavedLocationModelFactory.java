@@ -4,6 +4,7 @@ import com.vadimistar.weatherviewer.api.dto.SavedLocationDto;
 import com.vadimistar.weatherviewer.web.models.SavedLocationModel;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -13,7 +14,7 @@ public class SavedLocationModelFactory {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
         LocalDateTime localDateTime = LocalDateTime.ofInstant(
-                savedLocationDto.getTime(),
+                Instant.now(),
                 savedLocationDto.getZoneOffset()
         );
         String formattedTime = localDateTime.format(formatter);

@@ -16,7 +16,6 @@ public class SavedLocationDtoFactory {
                 .weather(weather.getWeather())
                 .temperature(BigDecimal.valueOf(weather.getTemperature()))
                 .iconUrl(weather.getIconUrl())
-                .time(weather.getTime())
                 .zoneOffset(weather.getZoneOffset())
                 .build();
     }

@@ -33,8 +33,5 @@ public class SavedLocationDto {
     BigDecimal temperature;
 
     @NonNull
-    Instant time;
-
-    @NonNull
     ZoneOffset zoneOffset;
 }
