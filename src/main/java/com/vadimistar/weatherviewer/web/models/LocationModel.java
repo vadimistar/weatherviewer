@@ -9,6 +9,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LocationModel {
+    Long id;
+
     String name;
 
     String time;
@@ -18,4 +20,8 @@ public class LocationModel {
     String weather;
 
     Integer temperature;
+
+    Double lat;
+
+    Double lon;
 }
