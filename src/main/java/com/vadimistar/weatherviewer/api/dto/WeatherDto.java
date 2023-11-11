@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
+import java.time.ZoneOffset;
+import java.util.TimeZone;
 
 @Data
 @Builder
@@ -17,5 +19,7 @@ public class WeatherDto {
 
     String weather;
 
-    String icon;
+    String iconUrl;
+
+    ZoneOffset zoneOffset;
 }

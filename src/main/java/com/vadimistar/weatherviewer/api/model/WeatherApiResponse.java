@@ -14,4 +14,6 @@ public class WeatherApiResponse {
     List<WeatherApiResponseWeather> weather;
 
     Long dt;
+
+    Long timezone;
 }

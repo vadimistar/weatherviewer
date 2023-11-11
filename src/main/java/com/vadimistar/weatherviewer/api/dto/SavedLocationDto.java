@@ -7,6 +7,9 @@ import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.util.TimeZone;
 
 @Data
 @Builder
@@ -22,5 +25,16 @@ public class SavedLocationDto {
     @Builder.Default
     String weather = "";
 
+    @NonNull
+    @Builder.Default
+    String iconUrl = "";
+
+    @NonNull
     BigDecimal temperature;
+
+    @NonNull
+    Instant time;
+
+    @NonNull
+    ZoneOffset zoneOffset;
 }
