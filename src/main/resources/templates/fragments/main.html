@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title>Thymeleaf Fragments: home</title>
+    <meta charset="UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">weather viewer</a>
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a th:if="${username == null || username.isEmpty()}" class="nav-link" href="/login">Log in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:if="${username == null || username.isEmpty()}" class="nav-link" href="/register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <span th:unless="${username == null || username.isEmpty()}" class="nav-link fw-bolder" href="#" th:text="${username}"></span>
+                    </li>
+                    <li class="nav-item">
+                        <a th:unless="${username == null || username.isEmpty()}" class="nav-link" href="/logout">Log out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div th:fragment="search-bar">
+    <div class="row justify-content-center align-items-center my-5">
+        <div class="w-auto">
+            <div class="input-group">
+                <div class="form-outline">
+                    <input type="search" id="form1" class="form-control" placeholder="enter location" />
+                </div>
+                <button type="button" class="btn btn-primary">
+                    search
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</body>
+</html>

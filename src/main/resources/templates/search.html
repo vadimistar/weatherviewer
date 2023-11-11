@@ -8,10 +8,12 @@
 </head>
 
 <body>
-    <header th:insert="fragments/main.html :: header"></header>
+    <header th:insert="index.html :: header">
+    </header>
 
     <main>
-        <div th:replace="fragments/main.html :: search-bar"></div>
+        <div th:insert="index.html :: search-bar">
+        </div>
 
         <div class="container text-center">
             <div class="row row-cols-6">
@@ -20,9 +22,11 @@
                     <div class="">
                         <span class="fw-bold" th:text="${location.getName()}"></span>
                     </div>
-                    <div class="">
-                        <span th:text="${location.getTime()}"></span>
-                    </div>
+                    <form action="@{/saved}" method="post">
+                        <button class="btn btn-primary">
+                            add location
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
