@@ -15,21 +15,7 @@
         <div th:insert="fragments/main.html :: search-bar">
         </div>
 
-        <div class="container text-center">
-            <div class="row row-cols-6">
-                <div class="col" th:each="location : ${locations}">
-                    <img th:src="${location.getIconUrl()}"  alt=""/>
-                    <span class="fw-bold" th:text="${location.getName()}"></span>
-                    <span th:text="${location.getTime()}"></span>
-                    <div class="mt-4">
-                        <form action="@{/saved}" method="post">
-                            <button class="btn btn-primary">
-                                add location
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div th:insert="fragments/main.html :: locations(buttonClass='btn btn-primary', buttonText='save location', action='/saved')">
         </div>
     </main>
 
