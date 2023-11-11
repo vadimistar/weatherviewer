@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -13,7 +13,7 @@
     <main>
         <div th:replace="fragments/main.html :: search-bar"></div>
 
-        <div th:insert="fragments/main.html :: location_list(buttonClass='btn btn-danger', buttonText='X', action='/', method='delete')">
+        <div th:insert="fragments/main.html :: location_list(buttonClass='btn btn-danger', buttonText='X', action='/locations/remove')">
         </div>
     </main>
 

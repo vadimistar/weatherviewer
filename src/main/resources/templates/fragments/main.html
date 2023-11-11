@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <title>Thymeleaf Fragments: home</title>
     <meta charset="UTF-8" />
@@ -43,19 +43,19 @@
         </div>
     </div>
 </div>
-<div th:fragment="location_list(buttonClass, buttonText, action, method)">
+<div th:fragment="location_list(buttonClass, buttonText, action)">
         <div class="container text-center">
             <div class="row row-cols-6">
-                <!--/*@thymesVar id="locations" type="java.util.List<com.vadimistar.weatherviewer.web.models.LocationModel>"*/-->
+                <!--/*@thymesVar id="locations" type="java.util.List<com.vadimistar.weatherviewer.domain.web.LocationModel>"*/-->
                 <div class="col" th:each="location : ${locations}">
-                    <form th:action="@{${action}(id=${location.getId()},name=${location.getName()},lat=${location.getLat()},lon=${location.getLon()})}" th:method="${method}">
+                    <form th:action="@{${action}(id=${location.getId()},name=${location.getName()},lat=${location.getLat()},lon=${location.getLon()})}" method="post">
                         <div class="d-flex flex-column bd-highlight mb-3">
                             <img th:src="${location.getIconUrl()}" alt=""/>
                             <span class="fw-bold display-3" th:text="${location.getTemperature()} + '°'"></span>
                             <span class="fw-bold" th:text="${location.getName()}"></span>
                             <span th:text="${location.getTime()}"></span>
                             <div class="mt-4">
-                                <button th:class="${buttonClass}" th:text="${buttonText}">
+                                <button type="submit" th:class="${buttonClass}" th:text="${buttonText}">
                                 </button>
                             </div>
                         </div>
