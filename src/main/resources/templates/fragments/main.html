@@ -49,12 +49,15 @@
                 <!--/*@thymesVar id="locations" type="java.util.List<com.vadimistar.weatherviewer.web.models.LocationModel>"*/-->
                 <div class="col" th:each="location : ${locations}">
                     <form th:action="@{${action}(id=${location.getId()},name=${location.getName()},lat=${location.getLat()},lon=${location.getLon()})}" th:method="${method}">
-                        <img th:src="${location.getIconUrl()}" alt=""/>
-                        <span class="fw-bold" th:text="${location.getName()}"></span>
-                        <span th:text="${location.getTime()}"></span>
-                        <div class="mt-4">
-                            <button th:class="${buttonClass}" th:text="${buttonText}">
-                            </button>
+                        <div class="d-flex flex-column bd-highlight mb-3">
+                            <img th:src="${location.getIconUrl()}" alt=""/>
+                            <span class="fw-bold display-3" th:text="${location.getTemperature()} + '°'"></span>
+                            <span class="fw-bold" th:text="${location.getName()}"></span>
+                            <span th:text="${location.getTime()}"></span>
+                            <div class="mt-4">
+                                <button th:class="${buttonClass}" th:text="${buttonText}">
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
