@@ -15,7 +15,7 @@ public class UserService {
     UserRepository userRepository;
 
     public void createUser(String name, String password) {
-        if (!userRepository.existsByName(name)) {
+        if (userRepository.existsByName(name)) {
             throw new BadRequestException("user with the specified name already exists");
         }
 
