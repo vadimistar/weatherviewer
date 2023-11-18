@@ -6,7 +6,8 @@ import lombok.experimental.FieldDefaults;
 @Data
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserModel {
+public class RegisterModel {
     String name;
     String password;
+    String confirmPassword;
 }

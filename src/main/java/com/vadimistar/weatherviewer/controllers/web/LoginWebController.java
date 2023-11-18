@@ -1,7 +1,7 @@
 package com.vadimistar.weatherviewer.controllers.web;
 
+import com.vadimistar.weatherviewer.domain.web.LoginModel;
 import com.vadimistar.weatherviewer.dto.api.SessionDto;
-import com.vadimistar.weatherviewer.domain.web.UserModel;
 import com.vadimistar.weatherviewer.exceptions.BadRequestException;
 import com.vadimistar.weatherviewer.services.SessionService;
 import lombok.AccessLevel;
@@ -28,7 +28,7 @@ public class LoginWebController {
 
     @GetMapping(LOGIN_VIEW)
     public String loginView(Model model) {
-        model.addAttribute("userModel", new UserModel("", ""));
+        model.addAttribute("loginModel", new LoginModel("", ""));
 
         return "login";
     }
@@ -36,9 +36,9 @@ public class LoginWebController {
     @PostMapping(DO_LOGIN)
     public String doLogin(Model model,
                           HttpServletResponse response,
-                          @ModelAttribute UserModel userModel) {
+                          @ModelAttribute LoginModel loginModel) {
         try {
-            SessionDto session = sessionService.createSession(userModel.getName(), userModel.getPassword());
+            SessionDto session = sessionService.createSession(loginModel.getName(), loginModel.getPassword());
             addSessionCookie(response, session);
             return "redirect:/";
 
@@ -49,7 +49,7 @@ public class LoginWebController {
             model.addAttribute("error", "something went wrong. try again later.");
         }
 
-        model.addAttribute("userModel", userModel);
+        model.addAttribute("loginModel", loginModel);
 
         return "login";
     }

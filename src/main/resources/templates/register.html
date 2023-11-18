@@ -22,7 +22,7 @@
             <div class="row justify-content-center">
                 <div class="my-4">
                 </div>
-                <form method="post" class="col-md-3" th:action="@{/register}" th:object="${userModel}">
+                <form method="post" class="col-md-3" th:action="@{/register}" th:object="${registerModel}">
                     <div class="color-red fw-bold my-4" th:text="${error}"></div>
                     <div class="mb-2">
                         <input type="text" id="name" class="form-control" placeholder="username"
@@ -31,6 +31,10 @@
                     <div class="mb-2">
                         <input type="password" id="password" class="form-control" placeholder="password"
                                required th:field="*{password}"/>
+                    </div>
+                    <div class="mb-2">
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="confirm password"
+                               required th:field="*{confirmPassword}"/>
                     </div>
                     <div class="row mx-auto w-50 mt-4">
                         <button type="submit" class="btn btn-primary btn-block">Register</button>

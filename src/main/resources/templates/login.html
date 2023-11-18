@@ -22,7 +22,7 @@
             <div class="row justify-content-center">
                 <div class="my-4">
                 </div>
-                <form method="post" class="col-md-3" th:action="@{/login}" th:object="${userModel}">
+                <form method="post" class="col-md-3" th:action="@{/login}" th:object="${loginModel}">
                     <div class="color-red fw-bold my-4" th:text="${error}"></div>
                     <div class="mb-2">
                         <input type="text" id="name" class="form-control" placeholder="username"

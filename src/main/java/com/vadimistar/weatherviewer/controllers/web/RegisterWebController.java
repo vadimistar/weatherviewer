@@ -1,6 +1,6 @@
 package com.vadimistar.weatherviewer.controllers.web;
 
-import com.vadimistar.weatherviewer.domain.web.UserModel;
+import com.vadimistar.weatherviewer.domain.web.RegisterModel;
 import com.vadimistar.weatherviewer.dto.api.SessionDto;
 import com.vadimistar.weatherviewer.exceptions.BadRequestException;
 import com.vadimistar.weatherviewer.services.SessionService;
@@ -30,7 +30,7 @@ public class RegisterWebController {
 
     @GetMapping(REGISTER_VIEW)
     public String registerView(Model model) {
-        model.addAttribute("userModel", new UserModel("", ""));
+        model.addAttribute("registerModel", new RegisterModel("", "", ""));
 
         return "register";
     }
@@ -38,11 +38,15 @@ public class RegisterWebController {
     @PostMapping(DO_REGISTER)
     public String doRegister(Model model,
                              HttpServletResponse response,
-                             @ModelAttribute UserModel userModel) {
+                             @ModelAttribute RegisterModel registerModel) {
         try {
-            userService.createUser(userModel.getName(), userModel.getPassword());
+            if (!registerModel.getPassword().equals(registerModel.getConfirmPassword())) {
+                throw new BadRequestException("password and confirm password are different");
+            }
 
-            SessionDto session = sessionService.createSession(userModel.getName(), userModel.getPassword());
+            userService.createUser(registerModel.getName(), registerModel.getPassword());
+
+            SessionDto session = sessionService.createSession(registerModel.getName(), registerModel.getPassword());
             addSessionCookie(response, session);
             return "redirect:/";
 
@@ -53,7 +57,7 @@ public class RegisterWebController {
             model.addAttribute("error", "something went wrong. try again later.");
         }
 
-        model.addAttribute("userModel", userModel);
+        model.addAttribute("registerModel", registerModel);
 
         return "register";
     }
