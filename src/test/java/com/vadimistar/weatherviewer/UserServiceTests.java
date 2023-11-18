@@ -43,8 +43,8 @@ public class UserServiceTests {
         Optional<UserEntity> got = userRepository.findByNameAndPassword(name, password);
 
         assertTrue(got.isPresent());
-        assertEquals(got.get().getName(), name);
-        assertEquals(got.get().getPassword(), password);
+        assertEquals(name, got.get().getName());
+        assertEquals(password, got.get().getPassword());
     }
 
     @Test

@@ -42,10 +42,10 @@ public class WeatherServiceTests {
 
         WeatherDto weather = weatherService.getWeather(restTemplate, 20.0, 40.0);
 
-        assertEquals(weather.getZoneOffset(), ZoneOffset.ofTotalSeconds(10800));
-        assertEquals(weather.getWeather(), "Clear");
-        assertEquals(weather.getTemperature(), -3.39);
-        assertEquals(weather.getIconUrl(), "01d");
+        assertEquals(ZoneOffset.ofTotalSeconds(10800), weather.getZoneOffset());
+        assertEquals("Clear", weather.getWeather());
+        assertEquals(-3.39, weather.getTemperature());
+        assertEquals("01d", weather.getIconUrl());
     }
 
     @Test
