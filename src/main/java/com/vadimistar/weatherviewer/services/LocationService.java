@@ -5,6 +5,7 @@ import com.vadimistar.weatherviewer.dto.api.SavedLocationDto;
 import com.vadimistar.weatherviewer.dto.api.WeatherDto;
 import com.vadimistar.weatherviewer.exceptions.BadRequestException;
 import com.vadimistar.weatherviewer.exceptions.ForbiddenException;
+import com.vadimistar.weatherviewer.exceptions.OpenWeatherApiException;
 import com.vadimistar.weatherviewer.factories.api.FoundLocationDtoFactory;
 import com.vadimistar.weatherviewer.factories.api.SavedLocationDtoFactory;
 import com.vadimistar.weatherviewer.domain.api.GeocodingApiResponse;
@@ -19,6 +20,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
@@ -50,6 +52,7 @@ public class LocationService {
         return locations.stream()
                 .map(location -> {
                     WeatherDto weather = weatherService.getWeather(
+                            new RestTemplate(),
                             location.getLatitude().doubleValue(),
                             location.getLongitude().doubleValue()
                     );
@@ -80,7 +83,7 @@ public class LocationService {
         locationRepository.removeByIdAndUserId(locationId, userId);
     }
 
-    public List<FoundLocationDto> searchLocations(String query, Integer limit) {
+    public List<FoundLocationDto> searchLocations(RestTemplate restTemplate, String query, Integer limit) {
         Map<String, Object> uriVariables = new HashMap<>();
 
         query = query.replace(' ', '_');
@@ -89,18 +92,24 @@ public class LocationService {
         uriVariables.put("limit", limit);
 
         String apiUri = openWeatherMapConfig.getGeocodingUri(uriVariables);
-        List<GeocodingApiResponse> apiResponse = new RestTemplate()
-                .exchange(
-                        apiUri,
-                        HttpMethod.GET,
-                        null,
-                        new ParameterizedTypeReference<List<GeocodingApiResponse>>() {
-                        }
-                )
-                .getBody();
 
-        return Objects.requireNonNull(apiResponse).stream()
-                .map(foundLocationDtoFactory::createFoundLocationDto)
-                .collect(Collectors.toList());
+        try {
+            List<GeocodingApiResponse> apiResponse = restTemplate
+                    .exchange(
+                            apiUri,
+                            HttpMethod.GET,
+                            null,
+                            new ParameterizedTypeReference<List<GeocodingApiResponse>>() {
+                            }
+                    )
+                    .getBody();
+
+            return Objects.requireNonNull(apiResponse).stream()
+                    .map(foundLocationDtoFactory::createFoundLocationDto)
+                    .collect(Collectors.toList());
+
+        } catch (HttpClientErrorException e) {
+            throw new OpenWeatherApiException(e.getStatusText());
+        }
     }
 }

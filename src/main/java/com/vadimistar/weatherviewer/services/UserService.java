@@ -1,6 +1,6 @@
 package com.vadimistar.weatherviewer.services;
 
-import com.vadimistar.weatherviewer.exceptions.BadRequestException;
+import com.vadimistar.weatherviewer.exceptions.UserAlreadyExistsException;
 import com.vadimistar.weatherviewer.store.entity.UserEntity;
 import com.vadimistar.weatherviewer.store.repositories.UserRepository;
 import lombok.AccessLevel;
@@ -16,7 +16,7 @@ public class UserService {
 
     public void createUser(String name, String password) {
         if (userRepository.existsByName(name)) {
-            throw new BadRequestException("user with the specified name already exists");
+            throw new UserAlreadyExistsException();
         }
 
         userRepository.saveAndFlush(UserEntity.create(name, password));

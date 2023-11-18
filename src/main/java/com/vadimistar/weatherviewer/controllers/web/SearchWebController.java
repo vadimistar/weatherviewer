@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,10 +37,10 @@ public class SearchWebController {
                          @RequestParam String query) {
         CurrentUserDto currentUser = sessionService.getCurrentUser(sessionId);
 
-        List<LocationModel> locations = locationService.searchLocations(query, SEARCH_LIMIT)
+        List<LocationModel> locations = locationService.searchLocations(new RestTemplate(), query, SEARCH_LIMIT)
                 .stream()
                 .map(location -> {
-                    WeatherDto weather = weatherService.getWeather(location.getLat(), location.getLon());
+                    WeatherDto weather = weatherService.getWeather(new RestTemplate(), location.getLat(), location.getLon());
                     return locationModelFactory.createLocationModel(location, weather);
                 })
                 .collect(Collectors.toList());

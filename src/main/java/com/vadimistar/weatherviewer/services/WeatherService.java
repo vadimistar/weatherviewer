@@ -2,12 +2,14 @@ package com.vadimistar.weatherviewer.services;
 
 import com.vadimistar.weatherviewer.config.OpenWeatherMapConfig;
 import com.vadimistar.weatherviewer.dto.api.WeatherDto;
+import com.vadimistar.weatherviewer.exceptions.OpenWeatherApiException;
 import com.vadimistar.weatherviewer.factories.api.WeatherDtoFactory;
 import com.vadimistar.weatherviewer.domain.api.WeatherApiResponse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -20,7 +22,7 @@ public class WeatherService {
     OpenWeatherMapConfig openWeatherMapConfig;
     WeatherDtoFactory weatherDtoFactory;
 
-    public WeatherDto getWeather(double latitude, double longitude) {
+    public WeatherDto getWeather(RestTemplate restTemplate, double latitude, double longitude) {
         Map<String, Object> uriVariables = new HashMap<>();
 
         uriVariables.put("lat", latitude);
@@ -29,9 +31,14 @@ public class WeatherService {
         uriVariables.put("units", "metric");
 
         String apiUri = openWeatherMapConfig.getWeatherUri(uriVariables);
-        WeatherApiResponse apiResponse = new RestTemplate().getForObject(apiUri, WeatherApiResponse.class);
+        try {
+            WeatherApiResponse apiResponse = restTemplate.getForObject(apiUri, WeatherApiResponse.class);
 
-        assert apiResponse != null;
-        return weatherDtoFactory.createWeatherDto(apiResponse);
+            assert apiResponse != null;
+            return weatherDtoFactory.createWeatherDto(apiResponse);
+
+        } catch (HttpClientErrorException e) {
+            throw new OpenWeatherApiException(e.getStatusText());
+        }
     }
 }

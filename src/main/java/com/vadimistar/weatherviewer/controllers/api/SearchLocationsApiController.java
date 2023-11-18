@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -24,6 +25,6 @@ public class SearchLocationsApiController {
     public List<FoundLocationDto> searchLocations(
             @RequestParam String query,
             @RequestParam(defaultValue = DEFAULT_SEARCH_LIMIT) Integer limit){
-        return locationService.searchLocations(query, limit);
+        return locationService.searchLocations(new RestTemplate(), query, limit);
     }
 }

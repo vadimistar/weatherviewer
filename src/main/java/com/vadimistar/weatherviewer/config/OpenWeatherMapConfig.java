@@ -1,5 +1,6 @@
 package com.vadimistar.weatherviewer.config;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,6 +19,10 @@ public class OpenWeatherMapConfig {
 
     @Value("${open-weather-map-api.geocoding.base-url}")
     private String geocodingBaseUrl;
+
+    @Getter
+    @Value("${open-weather-map-api.icon-url-format}")
+    private String iconUrlFormat;
 
     public String getWeatherUri(Map<String, Object> uriVariables) {
         return getUri(uriVariables, weatherBaseUrl);
