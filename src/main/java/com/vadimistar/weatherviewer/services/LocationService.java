@@ -25,10 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -85,6 +82,10 @@ public class LocationService {
 
     public List<FoundLocationDto> searchLocations(RestTemplate restTemplate, String query, Integer limit) {
         Map<String, Object> uriVariables = new HashMap<>();
+
+        if (query.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
 
         query = query.replace(' ', '_');
 
