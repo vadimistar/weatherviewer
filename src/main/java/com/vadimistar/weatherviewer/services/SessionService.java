@@ -23,6 +23,8 @@ import java.util.Optional;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SessionService {
+    // TODO: Remove dead sessions
+
     SessionRepository sessionRepository;
     CurrentUserDtoFactory currentUserDtoFactory;
     SessionDtoFactory sessionDtoFactory;
