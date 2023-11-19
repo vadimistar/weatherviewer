@@ -13,18 +13,21 @@ import com.vadimistar.weatherviewer.store.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
+@EnableScheduling
 @Component
 @AllArgsConstructor
+@Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SessionService {
-    // TODO: Remove dead sessions
-
     SessionRepository sessionRepository;
     CurrentUserDtoFactory currentUserDtoFactory;
     SessionDtoFactory sessionDtoFactory;
@@ -65,5 +68,10 @@ public class SessionService {
         }
 
         return currentUserDtoFactory.createCurrentUserDto(session.get().getUser());
+    }
+
+    @Scheduled(cron = "0 * * * * *")
+    public void removeInvalidSessions() {
+        sessionRepository.removeAllByExpiresAtBefore(Instant.now());
     }
 }
