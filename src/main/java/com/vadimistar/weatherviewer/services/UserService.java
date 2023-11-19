@@ -1,5 +1,6 @@
 package com.vadimistar.weatherviewer.services;
 
+import com.password4j.Password;
 import com.vadimistar.weatherviewer.exceptions.UserAlreadyExistsException;
 import com.vadimistar.weatherviewer.store.entity.UserEntity;
 import com.vadimistar.weatherviewer.store.repositories.UserRepository;
@@ -19,6 +20,8 @@ public class UserService {
             throw new UserAlreadyExistsException();
         }
 
-        userRepository.saveAndFlush(UserEntity.create(name, password));
+        String encodedPassword = Password.hash(password).withBcrypt().getResult();
+
+        userRepository.saveAndFlush(UserEntity.create(name, encodedPassword));
     }
 }

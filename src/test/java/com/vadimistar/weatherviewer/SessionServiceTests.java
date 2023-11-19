@@ -52,7 +52,7 @@ public class SessionServiceTests {
         String password = generateRandomString(random, 10);
 
         userService.createUser(name, password);
-        Optional<UserEntity> user = userRepository.findByNameAndPassword(name, password);
+        Optional<UserEntity> user = userRepository.findByName(name);
         assertTrue(user.isPresent());
 
         SessionDto session = sessionService.createSession(name, password);

@@ -1,5 +1,6 @@
 package com.vadimistar.weatherviewer.services;
 
+import com.password4j.Password;
 import com.vadimistar.weatherviewer.config.SessionsConfig;
 import com.vadimistar.weatherviewer.dto.api.CurrentUserDto;
 import com.vadimistar.weatherviewer.dto.api.SessionDto;
@@ -35,7 +36,7 @@ public class SessionService {
     SessionsConfig sessionsConfig;
 
     public SessionDto createSession(String name, String password) {
-        UserEntity user = userRepository.findByNameAndPassword(name, password)
+        UserEntity user = userRepository.findByName(name)
                 .orElseThrow(InvalidCredentialsException::new);
 
         SessionEntity session = sessionRepository.saveAndFlush(
@@ -44,6 +45,12 @@ public class SessionService {
                         .expiresAt(Instant.now().plus(sessionsConfig.getLifetime()))
                         .build()
         );
+
+        String actualPassword = user.getPassword();
+
+        if (!Password.check(password, actualPassword).withBcrypt()) {
+            throw new InvalidCredentialsException();
+        }
 
         return sessionDtoFactory.createSessionDto(session);
     }
