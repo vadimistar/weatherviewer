@@ -44,8 +44,6 @@ jobs:
           with:
             distribution: 'adopt'
             java-version: '8'
-        - name: Build package
-          run: mvn clean package -Dmaven.test.skip
         - name: Deploy
           uses: johnbeynon/render-deploy-action@v0.0.8
           with:
