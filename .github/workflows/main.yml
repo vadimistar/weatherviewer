@@ -46,11 +46,12 @@ jobs:
             java-version: '8'
         - name: Build package
           run: mvn clean package -Dmaven.test.skip
-        - name: Build Docker image
-          run: docker run -t weatherviewer .
         - name: Get fly.io cli
           uses: superfly/flyctl-actions/setup-flyctl@master
         - name: Deploy to fly.io
-          run: flyctl deploy --remote-only
+          run: flyctl deploy --app weatherviewer 
           env:
             FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+            POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}

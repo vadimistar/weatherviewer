@@ -1,4 +1,0 @@
-app = "weatherviewer"
-
-[build]
-  image = "weatherviewer"
