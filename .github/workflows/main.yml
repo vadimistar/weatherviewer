@@ -50,10 +50,11 @@ jobs:
           with:
             distribution: 'adopt'
             java-version: '8'
-        - name: Build using Maven
-          run: mvn clean package
-        - name: Upload artefact
-          uses: actions/upload-artifact@v1
-          with:
-            name: artifact
-            path: ./target/weatherviewer-1.0.0.jar
+        - name: Install Vercel CLI
+          run: npm install --global vercel@latest
+        - name: Pull Vercel environment information
+          run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        - name: Build project artifacts
+          run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        - name: Deploy project artifacts
+          run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
