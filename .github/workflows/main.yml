@@ -46,12 +46,8 @@ jobs:
             java-version: '8'
         - name: Build package
           run: mvn clean package -Dmaven.test.skip
-        - name: Get fly.io cli
-          uses: superfly/flyctl-actions/setup-flyctl@master
-        - name: Deploy to fly.io
-          run: flyctl deploy --app weatherviewer 
-          env:
-            FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-            POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        - name: Deploy
+          uses: johnbeynon/render-deploy-action@v0.0.8
+          with:
+            service-id: ${{ secrets.RENDER_SERVICE_ID }}
+            api-key: ${{ secrets.RENDER_API_KEY }}
