@@ -14,8 +14,8 @@ jobs:
           image: postgres:15
           env:
             POSTGRES_DB: weatherviewertest
-            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
           ports:
             - 5432:5432
           options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -28,21 +28,14 @@ jobs:
           distribution: 'adopt'
           java-version: 8
       - name: Run tests
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         run: mvn clean test
     deploy:
       runs-on: ubuntu-latest
       name: Deploy
       needs: test
-      services:
-        postgres:
-          image: postgres:15
-          env:
-            POSTGRES_DB: weatherviewer
-            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          ports:
-            - 5432:5432
-          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
       steps:
         - name: Checkout repository
           uses: actions/checkout@v2
@@ -58,4 +51,4 @@ jobs:
         - name: Build project artifacts
           run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
         - name: Deploy project artifacts
-          run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --env POSTGRES_USER=${{ secrets.POSTGRES_USER }} --env POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --env POSTGRES_USER=${{ secrets.POSTGRES_USER }} --env POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} --env POSTGRES_URL=${{ secrets.POSTGRES_URL }}
